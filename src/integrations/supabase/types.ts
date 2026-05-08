@@ -14,16 +14,267 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      filiais: {
+        Row: {
+          ativo: boolean
+          cidade: string | null
+          cnpj: string | null
+          created_at: string
+          endereco: string | null
+          estado: string | null
+          id: string
+          nome: string
+          updated_at: string
+        }
+        Insert: {
+          ativo?: boolean
+          cidade?: string | null
+          cnpj?: string | null
+          created_at?: string
+          endereco?: string | null
+          estado?: string | null
+          id?: string
+          nome: string
+          updated_at?: string
+        }
+        Update: {
+          ativo?: boolean
+          cidade?: string | null
+          cnpj?: string | null
+          created_at?: string
+          endereco?: string | null
+          estado?: string | null
+          id?: string
+          nome?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      motoristas: {
+        Row: {
+          ativo: boolean
+          cnh: string | null
+          cnh_categoria: string | null
+          cnh_validade: string | null
+          cpf: string | null
+          created_at: string
+          email: string | null
+          filial_id: string
+          id: string
+          nome: string
+          observacoes: string | null
+          telefone: string | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          ativo?: boolean
+          cnh?: string | null
+          cnh_categoria?: string | null
+          cnh_validade?: string | null
+          cpf?: string | null
+          created_at?: string
+          email?: string | null
+          filial_id: string
+          id?: string
+          nome: string
+          observacoes?: string | null
+          telefone?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          ativo?: boolean
+          cnh?: string | null
+          cnh_categoria?: string | null
+          cnh_validade?: string | null
+          cpf?: string | null
+          created_at?: string
+          email?: string | null
+          filial_id?: string
+          id?: string
+          nome?: string
+          observacoes?: string | null
+          telefone?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "motoristas_filial_id_fkey"
+            columns: ["filial_id"]
+            isOneToOne: false
+            referencedRelation: "filiais"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          email: string | null
+          filial_id: string | null
+          id: string
+          nome: string | null
+          telefone: string | null
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          email?: string | null
+          filial_id?: string | null
+          id: string
+          nome?: string | null
+          telefone?: string | null
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          email?: string | null
+          filial_id?: string | null
+          id?: string
+          nome?: string | null
+          telefone?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profiles_filial_id_fkey"
+            columns: ["filial_id"]
+            isOneToOne: false
+            referencedRelation: "filiais"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          filial_id: string | null
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          filial_id?: string | null
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          filial_id?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_roles_filial_id_fkey"
+            columns: ["filial_id"]
+            isOneToOne: false
+            referencedRelation: "filiais"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      veiculos: {
+        Row: {
+          ano: number | null
+          chassi: string | null
+          combustivel: string | null
+          cor: string | null
+          created_at: string
+          crlv_validade: string | null
+          filial_id: string
+          id: string
+          km_atual: number
+          marca: string | null
+          modelo: string | null
+          observacoes: string | null
+          placa: string
+          renavam: string | null
+          status: Database["public"]["Enums"]["veiculo_status"]
+          tipo: Database["public"]["Enums"]["veiculo_tipo"]
+          updated_at: string
+        }
+        Insert: {
+          ano?: number | null
+          chassi?: string | null
+          combustivel?: string | null
+          cor?: string | null
+          created_at?: string
+          crlv_validade?: string | null
+          filial_id: string
+          id?: string
+          km_atual?: number
+          marca?: string | null
+          modelo?: string | null
+          observacoes?: string | null
+          placa: string
+          renavam?: string | null
+          status?: Database["public"]["Enums"]["veiculo_status"]
+          tipo?: Database["public"]["Enums"]["veiculo_tipo"]
+          updated_at?: string
+        }
+        Update: {
+          ano?: number | null
+          chassi?: string | null
+          combustivel?: string | null
+          cor?: string | null
+          created_at?: string
+          crlv_validade?: string | null
+          filial_id?: string
+          id?: string
+          km_atual?: number
+          marca?: string | null
+          modelo?: string | null
+          observacoes?: string | null
+          placa?: string
+          renavam?: string | null
+          status?: Database["public"]["Enums"]["veiculo_status"]
+          tipo?: Database["public"]["Enums"]["veiculo_tipo"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "veiculos_filial_id_fkey"
+            columns: ["filial_id"]
+            isOneToOne: false
+            referencedRelation: "filiais"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      current_filial_id: { Args: never; Returns: string }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "gestor" | "motorista"
+      veiculo_status: "ativo" | "inativo" | "manutencao" | "vendido"
+      veiculo_tipo:
+        | "carro"
+        | "caminhao"
+        | "moto"
+        | "van"
+        | "onibus"
+        | "maquina"
+        | "outro"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +401,18 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "gestor", "motorista"],
+      veiculo_status: ["ativo", "inativo", "manutencao", "vendido"],
+      veiculo_tipo: [
+        "carro",
+        "caminhao",
+        "moto",
+        "van",
+        "onibus",
+        "maquina",
+        "outro",
+      ],
+    },
   },
 } as const
