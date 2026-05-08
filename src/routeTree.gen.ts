@@ -13,7 +13,16 @@ import { Route as SignupRouteImport } from './routes/signup'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppRelatoriosRouteImport } from './routes/_app.relatorios'
+import { Route as AppPneusRouteImport } from './routes/_app.pneus'
+import { Route as AppOcorrenciasRouteImport } from './routes/_app.ocorrencias'
+import { Route as AppMotoristasRouteImport } from './routes/_app.motoristas'
+import { Route as AppManutencaoRouteImport } from './routes/_app.manutencao'
+import { Route as AppFrotaRouteImport } from './routes/_app.frota'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
+import { Route as AppConfiguracoesRouteImport } from './routes/_app.configuracoes'
+import { Route as AppChecklistRouteImport } from './routes/_app.checklist'
+import { Route as AppAbastecimentoRouteImport } from './routes/_app.abastecimento'
 
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
@@ -34,9 +43,54 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppRelatoriosRoute = AppRelatoriosRouteImport.update({
+  id: '/relatorios',
+  path: '/relatorios',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPneusRoute = AppPneusRouteImport.update({
+  id: '/pneus',
+  path: '/pneus',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppOcorrenciasRoute = AppOcorrenciasRouteImport.update({
+  id: '/ocorrencias',
+  path: '/ocorrencias',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMotoristasRoute = AppMotoristasRouteImport.update({
+  id: '/motoristas',
+  path: '/motoristas',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppManutencaoRoute = AppManutencaoRouteImport.update({
+  id: '/manutencao',
+  path: '/manutencao',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppFrotaRoute = AppFrotaRouteImport.update({
+  id: '/frota',
+  path: '/frota',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppDashboardRoute = AppDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppConfiguracoesRoute = AppConfiguracoesRouteImport.update({
+  id: '/configuracoes',
+  path: '/configuracoes',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppChecklistRoute = AppChecklistRouteImport.update({
+  id: '/checklist',
+  path: '/checklist',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAbastecimentoRoute = AppAbastecimentoRouteImport.update({
+  id: '/abastecimento',
+  path: '/abastecimento',
   getParentRoute: () => AppRoute,
 } as any)
 
@@ -44,13 +98,31 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
+  '/abastecimento': typeof AppAbastecimentoRoute
+  '/checklist': typeof AppChecklistRoute
+  '/configuracoes': typeof AppConfiguracoesRoute
   '/dashboard': typeof AppDashboardRoute
+  '/frota': typeof AppFrotaRoute
+  '/manutencao': typeof AppManutencaoRoute
+  '/motoristas': typeof AppMotoristasRoute
+  '/ocorrencias': typeof AppOcorrenciasRoute
+  '/pneus': typeof AppPneusRoute
+  '/relatorios': typeof AppRelatoriosRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
+  '/abastecimento': typeof AppAbastecimentoRoute
+  '/checklist': typeof AppChecklistRoute
+  '/configuracoes': typeof AppConfiguracoesRoute
   '/dashboard': typeof AppDashboardRoute
+  '/frota': typeof AppFrotaRoute
+  '/manutencao': typeof AppManutencaoRoute
+  '/motoristas': typeof AppMotoristasRoute
+  '/ocorrencias': typeof AppOcorrenciasRoute
+  '/pneus': typeof AppPneusRoute
+  '/relatorios': typeof AppRelatoriosRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -58,14 +130,64 @@ export interface FileRoutesById {
   '/_app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
+  '/_app/abastecimento': typeof AppAbastecimentoRoute
+  '/_app/checklist': typeof AppChecklistRoute
+  '/_app/configuracoes': typeof AppConfiguracoesRoute
   '/_app/dashboard': typeof AppDashboardRoute
+  '/_app/frota': typeof AppFrotaRoute
+  '/_app/manutencao': typeof AppManutencaoRoute
+  '/_app/motoristas': typeof AppMotoristasRoute
+  '/_app/ocorrencias': typeof AppOcorrenciasRoute
+  '/_app/pneus': typeof AppPneusRoute
+  '/_app/relatorios': typeof AppRelatoriosRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/signup' | '/dashboard'
+  fullPaths:
+    | '/'
+    | '/login'
+    | '/signup'
+    | '/abastecimento'
+    | '/checklist'
+    | '/configuracoes'
+    | '/dashboard'
+    | '/frota'
+    | '/manutencao'
+    | '/motoristas'
+    | '/ocorrencias'
+    | '/pneus'
+    | '/relatorios'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/signup' | '/dashboard'
-  id: '__root__' | '/' | '/_app' | '/login' | '/signup' | '/_app/dashboard'
+  to:
+    | '/'
+    | '/login'
+    | '/signup'
+    | '/abastecimento'
+    | '/checklist'
+    | '/configuracoes'
+    | '/dashboard'
+    | '/frota'
+    | '/manutencao'
+    | '/motoristas'
+    | '/ocorrencias'
+    | '/pneus'
+    | '/relatorios'
+  id:
+    | '__root__'
+    | '/'
+    | '/_app'
+    | '/login'
+    | '/signup'
+    | '/_app/abastecimento'
+    | '/_app/checklist'
+    | '/_app/configuracoes'
+    | '/_app/dashboard'
+    | '/_app/frota'
+    | '/_app/manutencao'
+    | '/_app/motoristas'
+    | '/_app/ocorrencias'
+    | '/_app/pneus'
+    | '/_app/relatorios'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -105,6 +227,48 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_app/relatorios': {
+      id: '/_app/relatorios'
+      path: '/relatorios'
+      fullPath: '/relatorios'
+      preLoaderRoute: typeof AppRelatoriosRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/pneus': {
+      id: '/_app/pneus'
+      path: '/pneus'
+      fullPath: '/pneus'
+      preLoaderRoute: typeof AppPneusRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/ocorrencias': {
+      id: '/_app/ocorrencias'
+      path: '/ocorrencias'
+      fullPath: '/ocorrencias'
+      preLoaderRoute: typeof AppOcorrenciasRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/motoristas': {
+      id: '/_app/motoristas'
+      path: '/motoristas'
+      fullPath: '/motoristas'
+      preLoaderRoute: typeof AppMotoristasRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/manutencao': {
+      id: '/_app/manutencao'
+      path: '/manutencao'
+      fullPath: '/manutencao'
+      preLoaderRoute: typeof AppManutencaoRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/frota': {
+      id: '/_app/frota'
+      path: '/frota'
+      fullPath: '/frota'
+      preLoaderRoute: typeof AppFrotaRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/dashboard': {
       id: '/_app/dashboard'
       path: '/dashboard'
@@ -112,15 +276,54 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppDashboardRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/configuracoes': {
+      id: '/_app/configuracoes'
+      path: '/configuracoes'
+      fullPath: '/configuracoes'
+      preLoaderRoute: typeof AppConfiguracoesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/checklist': {
+      id: '/_app/checklist'
+      path: '/checklist'
+      fullPath: '/checklist'
+      preLoaderRoute: typeof AppChecklistRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/abastecimento': {
+      id: '/_app/abastecimento'
+      path: '/abastecimento'
+      fullPath: '/abastecimento'
+      preLoaderRoute: typeof AppAbastecimentoRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
 interface AppRouteChildren {
+  AppAbastecimentoRoute: typeof AppAbastecimentoRoute
+  AppChecklistRoute: typeof AppChecklistRoute
+  AppConfiguracoesRoute: typeof AppConfiguracoesRoute
   AppDashboardRoute: typeof AppDashboardRoute
+  AppFrotaRoute: typeof AppFrotaRoute
+  AppManutencaoRoute: typeof AppManutencaoRoute
+  AppMotoristasRoute: typeof AppMotoristasRoute
+  AppOcorrenciasRoute: typeof AppOcorrenciasRoute
+  AppPneusRoute: typeof AppPneusRoute
+  AppRelatoriosRoute: typeof AppRelatoriosRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppAbastecimentoRoute: AppAbastecimentoRoute,
+  AppChecklistRoute: AppChecklistRoute,
+  AppConfiguracoesRoute: AppConfiguracoesRoute,
   AppDashboardRoute: AppDashboardRoute,
+  AppFrotaRoute: AppFrotaRoute,
+  AppManutencaoRoute: AppManutencaoRoute,
+  AppMotoristasRoute: AppMotoristasRoute,
+  AppOcorrenciasRoute: AppOcorrenciasRoute,
+  AppPneusRoute: AppPneusRoute,
+  AppRelatoriosRoute: AppRelatoriosRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
