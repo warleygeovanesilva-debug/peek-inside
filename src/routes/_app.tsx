@@ -3,6 +3,8 @@ import { useEffect } from "react";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { useAuth } from "@/hooks/use-auth";
+import { useProfile } from "@/hooks/use-profile";
+import { OnboardingScreen } from "@/components/onboarding-dialog";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { LogOut } from "lucide-react";
@@ -15,6 +17,7 @@ export const Route = createFileRoute("/_app")({
 function AppLayout() {
   const navigate = useNavigate();
   const { user, loading } = useAuth();
+  const { data: profile, isLoading: profileLoading } = useProfile();
 
   useEffect(() => {
     if (!loading && !user) navigate({ to: "/login" });
@@ -26,12 +29,16 @@ function AppLayout() {
     navigate({ to: "/login" });
   };
 
-  if (loading || !user) {
+  if (loading || !user || profileLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center text-muted-foreground">
         Carregando...
       </div>
     );
+  }
+
+  if (!profile?.filialId) {
+    return <OnboardingScreen />;
   }
 
   return (
