@@ -255,6 +255,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      bootstrap_filial: {
+        Args: { _cidade?: string; _estado?: string; _nome: string }
+        Returns: string
+      }
       current_filial_id: { Args: never; Returns: string }
       has_role: {
         Args: {
