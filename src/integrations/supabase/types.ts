@@ -69,7 +69,29 @@ export type Database = {
           valor_total?: number
           veiculo_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "abastec_filial_fk"
+            columns: ["filial_id"]
+            isOneToOne: false
+            referencedRelation: "filiais"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "abastec_motorista_fk"
+            columns: ["motorista_id"]
+            isOneToOne: false
+            referencedRelation: "motoristas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "abastec_veiculo_fk"
+            columns: ["veiculo_id"]
+            isOneToOne: false
+            referencedRelation: "veiculos"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       checklists: {
         Row: {
@@ -114,7 +136,29 @@ export type Database = {
           updated_at?: string
           veiculo_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "check_filial_fk"
+            columns: ["filial_id"]
+            isOneToOne: false
+            referencedRelation: "filiais"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "check_motorista_fk"
+            columns: ["motorista_id"]
+            isOneToOne: false
+            referencedRelation: "motoristas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "check_veiculo_fk"
+            columns: ["veiculo_id"]
+            isOneToOne: false
+            referencedRelation: "veiculos"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       filiais: {
         Row: {
@@ -204,7 +248,22 @@ export type Database = {
           updated_at?: string
           veiculo_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "manut_filial_fk"
+            columns: ["filial_id"]
+            isOneToOne: false
+            referencedRelation: "filiais"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "manut_veiculo_fk"
+            columns: ["veiculo_id"]
+            isOneToOne: false
+            referencedRelation: "veiculos"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       motoristas: {
         Row: {
@@ -256,6 +315,13 @@ export type Database = {
           user_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "motoristas_filial_fk"
+            columns: ["filial_id"]
+            isOneToOne: false
+            referencedRelation: "filiais"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "motoristas_filial_id_fkey"
             columns: ["filial_id"]
@@ -323,7 +389,22 @@ export type Database = {
           updated_at?: string
           veiculo_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "pneus_filial_fk"
+            columns: ["filial_id"]
+            isOneToOne: false
+            referencedRelation: "filiais"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "pneus_veiculo_fk"
+            columns: ["veiculo_id"]
+            isOneToOne: false
+            referencedRelation: "veiculos"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       profiles: {
         Row: {
@@ -403,7 +484,29 @@ export type Database = {
           posicao_nova?: string | null
           veiculo_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "rod_filial_fk"
+            columns: ["filial_id"]
+            isOneToOne: false
+            referencedRelation: "filiais"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "rod_pneu_fk"
+            columns: ["pneu_id"]
+            isOneToOne: false
+            referencedRelation: "pneus"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "rod_veiculo_fk"
+            columns: ["veiculo_id"]
+            isOneToOne: false
+            referencedRelation: "veiculos"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_roles: {
         Row: {
@@ -496,6 +599,13 @@ export type Database = {
           updated_at?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "veiculos_filial_fk"
+            columns: ["filial_id"]
+            isOneToOne: false
+            referencedRelation: "filiais"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "veiculos_filial_id_fkey"
             columns: ["filial_id"]
