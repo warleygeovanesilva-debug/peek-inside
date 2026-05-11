@@ -14,6 +14,152 @@ export type Database = {
   }
   public: {
     Tables: {
+      abastecimentos: {
+        Row: {
+          combustivel: string | null
+          consumo_kml: number | null
+          created_at: string
+          created_by: string | null
+          data: string
+          filial_id: string
+          id: string
+          km: number
+          litros: number
+          motorista_id: string | null
+          observacoes: string | null
+          posto: string | null
+          updated_at: string
+          valor_litro: number
+          valor_total: number
+          veiculo_id: string
+        }
+        Insert: {
+          combustivel?: string | null
+          consumo_kml?: number | null
+          created_at?: string
+          created_by?: string | null
+          data?: string
+          filial_id: string
+          id?: string
+          km: number
+          litros: number
+          motorista_id?: string | null
+          observacoes?: string | null
+          posto?: string | null
+          updated_at?: string
+          valor_litro: number
+          valor_total: number
+          veiculo_id: string
+        }
+        Update: {
+          combustivel?: string | null
+          consumo_kml?: number | null
+          created_at?: string
+          created_by?: string | null
+          data?: string
+          filial_id?: string
+          id?: string
+          km?: number
+          litros?: number
+          motorista_id?: string | null
+          observacoes?: string | null
+          posto?: string | null
+          updated_at?: string
+          valor_litro?: number
+          valor_total?: number
+          veiculo_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "abastec_filial_fk"
+            columns: ["filial_id"]
+            isOneToOne: false
+            referencedRelation: "filiais"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "abastec_motorista_fk"
+            columns: ["motorista_id"]
+            isOneToOne: false
+            referencedRelation: "motoristas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "abastec_veiculo_fk"
+            columns: ["veiculo_id"]
+            isOneToOne: false
+            referencedRelation: "veiculos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      checklists: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          data: string
+          filial_id: string
+          id: string
+          itens: Json
+          km: number | null
+          motorista_id: string | null
+          observacoes: string | null
+          status: Database["public"]["Enums"]["checklist_status"]
+          updated_at: string
+          veiculo_id: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          data?: string
+          filial_id: string
+          id?: string
+          itens?: Json
+          km?: number | null
+          motorista_id?: string | null
+          observacoes?: string | null
+          status?: Database["public"]["Enums"]["checklist_status"]
+          updated_at?: string
+          veiculo_id: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          data?: string
+          filial_id?: string
+          id?: string
+          itens?: Json
+          km?: number | null
+          motorista_id?: string | null
+          observacoes?: string | null
+          status?: Database["public"]["Enums"]["checklist_status"]
+          updated_at?: string
+          veiculo_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "check_filial_fk"
+            columns: ["filial_id"]
+            isOneToOne: false
+            referencedRelation: "filiais"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "check_motorista_fk"
+            columns: ["motorista_id"]
+            isOneToOne: false
+            referencedRelation: "motoristas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "check_veiculo_fk"
+            columns: ["veiculo_id"]
+            isOneToOne: false
+            referencedRelation: "veiculos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       filiais: {
         Row: {
           ativo: boolean
@@ -49,6 +195,75 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      manutencoes: {
+        Row: {
+          created_at: string
+          custo: number | null
+          data_prevista: string | null
+          data_realizada: string | null
+          descricao: string
+          filial_id: string
+          fornecedor: string | null
+          id: string
+          km_proxima: number | null
+          km_realizacao: number | null
+          observacoes: string | null
+          status: Database["public"]["Enums"]["manutencao_status"]
+          tipo: Database["public"]["Enums"]["manutencao_tipo"]
+          updated_at: string
+          veiculo_id: string
+        }
+        Insert: {
+          created_at?: string
+          custo?: number | null
+          data_prevista?: string | null
+          data_realizada?: string | null
+          descricao: string
+          filial_id: string
+          fornecedor?: string | null
+          id?: string
+          km_proxima?: number | null
+          km_realizacao?: number | null
+          observacoes?: string | null
+          status?: Database["public"]["Enums"]["manutencao_status"]
+          tipo?: Database["public"]["Enums"]["manutencao_tipo"]
+          updated_at?: string
+          veiculo_id: string
+        }
+        Update: {
+          created_at?: string
+          custo?: number | null
+          data_prevista?: string | null
+          data_realizada?: string | null
+          descricao?: string
+          filial_id?: string
+          fornecedor?: string | null
+          id?: string
+          km_proxima?: number | null
+          km_realizacao?: number | null
+          observacoes?: string | null
+          status?: Database["public"]["Enums"]["manutencao_status"]
+          tipo?: Database["public"]["Enums"]["manutencao_tipo"]
+          updated_at?: string
+          veiculo_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "manut_filial_fk"
+            columns: ["filial_id"]
+            isOneToOne: false
+            referencedRelation: "filiais"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "manut_veiculo_fk"
+            columns: ["veiculo_id"]
+            isOneToOne: false
+            referencedRelation: "veiculos"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       motoristas: {
         Row: {
@@ -101,10 +316,92 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "motoristas_filial_fk"
+            columns: ["filial_id"]
+            isOneToOne: false
+            referencedRelation: "filiais"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "motoristas_filial_id_fkey"
             columns: ["filial_id"]
             isOneToOne: false
             referencedRelation: "filiais"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      pneus: {
+        Row: {
+          created_at: string
+          custo: number | null
+          data_compra: string | null
+          dot: string | null
+          filial_id: string
+          id: string
+          km_atual: number | null
+          km_instalacao: number | null
+          marca: string | null
+          medida: string | null
+          modelo: string | null
+          numero_serie: string | null
+          observacoes: string | null
+          posicao: string | null
+          status: Database["public"]["Enums"]["pneu_status"]
+          updated_at: string
+          veiculo_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          custo?: number | null
+          data_compra?: string | null
+          dot?: string | null
+          filial_id: string
+          id?: string
+          km_atual?: number | null
+          km_instalacao?: number | null
+          marca?: string | null
+          medida?: string | null
+          modelo?: string | null
+          numero_serie?: string | null
+          observacoes?: string | null
+          posicao?: string | null
+          status?: Database["public"]["Enums"]["pneu_status"]
+          updated_at?: string
+          veiculo_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          custo?: number | null
+          data_compra?: string | null
+          dot?: string | null
+          filial_id?: string
+          id?: string
+          km_atual?: number | null
+          km_instalacao?: number | null
+          marca?: string | null
+          medida?: string | null
+          modelo?: string | null
+          numero_serie?: string | null
+          observacoes?: string | null
+          posicao?: string | null
+          status?: Database["public"]["Enums"]["pneu_status"]
+          updated_at?: string
+          veiculo_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pneus_filial_fk"
+            columns: ["filial_id"]
+            isOneToOne: false
+            referencedRelation: "filiais"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "pneus_veiculo_fk"
+            columns: ["veiculo_id"]
+            isOneToOne: false
+            referencedRelation: "veiculos"
             referencedColumns: ["id"]
           },
         ]
@@ -146,6 +443,67 @@ export type Database = {
             columns: ["filial_id"]
             isOneToOne: false
             referencedRelation: "filiais"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      rodizios_pneus: {
+        Row: {
+          created_at: string
+          data: string
+          filial_id: string
+          id: string
+          km: number | null
+          observacoes: string | null
+          pneu_id: string
+          posicao_anterior: string | null
+          posicao_nova: string | null
+          veiculo_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          data?: string
+          filial_id: string
+          id?: string
+          km?: number | null
+          observacoes?: string | null
+          pneu_id: string
+          posicao_anterior?: string | null
+          posicao_nova?: string | null
+          veiculo_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          data?: string
+          filial_id?: string
+          id?: string
+          km?: number | null
+          observacoes?: string | null
+          pneu_id?: string
+          posicao_anterior?: string | null
+          posicao_nova?: string | null
+          veiculo_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rod_filial_fk"
+            columns: ["filial_id"]
+            isOneToOne: false
+            referencedRelation: "filiais"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "rod_pneu_fk"
+            columns: ["pneu_id"]
+            isOneToOne: false
+            referencedRelation: "pneus"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "rod_veiculo_fk"
+            columns: ["veiculo_id"]
+            isOneToOne: false
+            referencedRelation: "veiculos"
             referencedColumns: ["id"]
           },
         ]
@@ -242,6 +600,13 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "veiculos_filial_fk"
+            columns: ["filial_id"]
+            isOneToOne: false
+            referencedRelation: "filiais"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "veiculos_filial_id_fkey"
             columns: ["filial_id"]
             isOneToOne: false
@@ -270,6 +635,15 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "gestor" | "motorista"
+      checklist_status: "aprovado" | "reprovado" | "pendente"
+      manutencao_status: "agendada" | "em_andamento" | "concluida" | "cancelada"
+      manutencao_tipo:
+        | "preventiva"
+        | "corretiva"
+        | "revisao"
+        | "troca_oleo"
+        | "outro"
+      pneu_status: "em_uso" | "estoque" | "recapagem" | "descartado"
       veiculo_status: "ativo" | "inativo" | "manutencao" | "vendido"
       veiculo_tipo:
         | "carro"
@@ -407,6 +781,16 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "gestor", "motorista"],
+      checklist_status: ["aprovado", "reprovado", "pendente"],
+      manutencao_status: ["agendada", "em_andamento", "concluida", "cancelada"],
+      manutencao_tipo: [
+        "preventiva",
+        "corretiva",
+        "revisao",
+        "troca_oleo",
+        "outro",
+      ],
+      pneu_status: ["em_uso", "estoque", "recapagem", "descartado"],
       veiculo_status: ["ativo", "inativo", "manutencao", "vendido"],
       veiculo_tipo: [
         "carro",
