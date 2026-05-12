@@ -445,7 +445,50 @@ export type Database = {
           valor?: number | null
           veiculo_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "ocorrencias_filial_fk"
+            columns: ["filial_id"]
+            isOneToOne: false
+            referencedRelation: "filiais"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ocorrencias_motorista_fk"
+            columns: ["motorista_id"]
+            isOneToOne: false
+            referencedRelation: "kpi_ranking_motoristas"
+            referencedColumns: ["motorista_id"]
+          },
+          {
+            foreignKeyName: "ocorrencias_motorista_fk"
+            columns: ["motorista_id"]
+            isOneToOne: false
+            referencedRelation: "motoristas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ocorrencias_veiculo_fk"
+            columns: ["veiculo_id"]
+            isOneToOne: false
+            referencedRelation: "kpi_consumo_veiculo"
+            referencedColumns: ["veiculo_id"]
+          },
+          {
+            foreignKeyName: "ocorrencias_veiculo_fk"
+            columns: ["veiculo_id"]
+            isOneToOne: false
+            referencedRelation: "kpi_custo_veiculo"
+            referencedColumns: ["veiculo_id"]
+          },
+          {
+            foreignKeyName: "ocorrencias_veiculo_fk"
+            columns: ["veiculo_id"]
+            isOneToOne: false
+            referencedRelation: "veiculos"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       pneus: {
         Row: {
