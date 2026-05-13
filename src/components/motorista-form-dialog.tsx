@@ -9,6 +9,7 @@ import { Switch } from "@/components/ui/switch";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import type { Database } from "@/integrations/supabase/types";
+import { DocumentUploader } from "@/components/document-uploader";
 
 type Motorista = Database["public"]["Tables"]["motoristas"]["Row"];
 
