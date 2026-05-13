@@ -139,6 +139,9 @@ export function VeiculoFormDialog({ open, onOpenChange, veiculo, filialId }: Pro
           <div className="space-y-2"><Label>Renavam</Label><Input value={form.renavam} onChange={(e) => setForm({ ...form, renavam: e.target.value })} /></div>
           <div className="space-y-2"><Label>Chassi</Label><Input value={form.chassi} onChange={(e) => setForm({ ...form, chassi: e.target.value })} /></div>
           <div className="space-y-2 md:col-span-2"><Label>Observações</Label><Textarea value={form.observacoes} onChange={(e) => setForm({ ...form, observacoes: e.target.value })} /></div>
+          <div className="md:col-span-2 border-t pt-4">
+            <DocumentUploader modulo="veiculos" entidadeId={veiculo?.id} label="Documentos do veículo (CRLV, NF, fotos)" />
+          </div>
           <DialogFooter className="md:col-span-2">
             <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>Cancelar</Button>
             <Button type="submit" disabled={mutation.isPending}>{mutation.isPending ? "Salvando..." : "Salvar"}</Button>
