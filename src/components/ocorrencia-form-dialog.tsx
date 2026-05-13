@@ -10,6 +10,7 @@ import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 import type { Database } from "@/integrations/supabase/types";
+import { DocumentUploader } from "@/components/document-uploader";
 
 type Ocorrencia = Database["public"]["Tables"]["ocorrencias"]["Row"];
 type Tipo = Database["public"]["Enums"]["ocorrencia_tipo"];
@@ -197,6 +198,10 @@ export function OcorrenciaFormDialog({ open, onOpenChange, registro, filialId }:
 
           <div className="space-y-2 md:col-span-2"><Label>Descrição *</Label><Textarea value={form.descricao} onChange={(e) => setForm({ ...form, descricao: e.target.value })} required /></div>
           <div className="space-y-2 md:col-span-2"><Label>Observações</Label><Textarea value={form.observacoes} onChange={(e) => setForm({ ...form, observacoes: e.target.value })} /></div>
+
+          <div className="md:col-span-2 border-t pt-4">
+            <DocumentUploader modulo="ocorrencias" entidadeId={registro?.id} label="Anexos (BO, NF, fotos)" />
+          </div>
 
           <DialogFooter className="md:col-span-2">
             <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>Cancelar</Button>
