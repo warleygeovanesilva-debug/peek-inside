@@ -10,6 +10,7 @@ import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 import type { Database } from "@/integrations/supabase/types";
+import { DocumentUploader } from "@/components/document-uploader";
 
 type Ocorrencia = Database["public"]["Tables"]["ocorrencias"]["Row"];
 type Tipo = Database["public"]["Enums"]["ocorrencia_tipo"];
