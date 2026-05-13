@@ -95,6 +95,9 @@ export function MotoristaFormDialog({ open, onOpenChange, motorista, filialId }:
             <Label htmlFor="ativo">Motorista ativo</Label>
           </div>
           <div className="space-y-2 md:col-span-2"><Label>Observações</Label><Textarea value={form.observacoes} onChange={(e) => setForm({ ...form, observacoes: e.target.value })} /></div>
+          <div className="md:col-span-2 border-t pt-4">
+            <DocumentUploader modulo="motoristas" entidadeId={motorista?.id} label="Documentos (CNH, comprovantes)" />
+          </div>
           <DialogFooter className="md:col-span-2">
             <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>Cancelar</Button>
             <Button type="submit" disabled={mutation.isPending}>{mutation.isPending ? "Salvando..." : "Salvar"}</Button>
