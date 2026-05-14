@@ -69,9 +69,9 @@ function FrotaPage() {
       if (crlvFilter !== "todos") {
         const s = getDocStatus(v.crlv_validade);
         if (crlvFilter === "ok" && s !== "ok") return false;
-        if (crlvFilter === "warn" && s !== "warn") return false;
+        if (crlvFilter === "warn" && s !== "expiring") return false;
         if (crlvFilter === "expired" && s !== "expired") return false;
-        if (crlvFilter === "missing" && s !== "missing") return false;
+        if (crlvFilter === "missing" && s !== "none") return false;
       }
       return true;
     });
