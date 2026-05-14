@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -7,15 +7,19 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { Plus, Pencil, Trash2, Search } from "lucide-react";
 import { MotoristaFormDialog } from "@/components/motorista-form-dialog";
+import { DataPagination } from "@/components/data-pagination";
 import { getDocStatus, statusBadgeClass, statusLabel, formatDateBR } from "@/lib/validity";
 import { toast } from "sonner";
 import type { Database } from "@/integrations/supabase/types";
 
 type Motorista = Database["public"]["Tables"]["motoristas"]["Row"];
+
+const PAGE_SIZE = 20;
 
 export const Route = createFileRoute("/_app/motoristas")({
   head: () => ({ meta: [{ title: "Motoristas — FrotaPro" }] }),
@@ -26,6 +30,9 @@ function MotoristasPage() {
   const { data: profile } = useProfile();
   const qc = useQueryClient();
   const [search, setSearch] = useState("");
+  const [ativoFilter, setAtivoFilter] = useState<string>("todos");
+  const [cnhFilter, setCnhFilter] = useState<string>("todos");
+  const [page, setPage] = useState(1);
   const [editing, setEditing] = useState<Motorista | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [deleting, setDeleting] = useState<Motorista | null>(null);
@@ -52,10 +59,26 @@ function MotoristasPage() {
     onError: (e: Error) => toast.error(e.message),
   });
 
-  const filtered = motoristas.filter((m) => {
+  const filtered = useMemo(() => {
     const q = search.toLowerCase();
-    return !q || m.nome?.toLowerCase().includes(q) || m.cpf?.includes(q) || m.cnh?.includes(q);
-  });
+    return motoristas.filter((m) => {
+      if (q && !(m.nome?.toLowerCase().includes(q) || m.cpf?.includes(q) || m.cnh?.includes(q) || m.email?.toLowerCase().includes(q))) return false;
+      if (ativoFilter === "ativo" && !m.ativo) return false;
+      if (ativoFilter === "inativo" && m.ativo) return false;
+      if (cnhFilter !== "todos") {
+        const s = getDocStatus(m.cnh_validade);
+        if (cnhFilter === "ok" && s !== "ok") return false;
+        if (cnhFilter === "warn" && s !== "expiring") return false;
+        if (cnhFilter === "expired" && s !== "expired") return false;
+        if (cnhFilter === "missing" && s !== "none") return false;
+      }
+      return true;
+    });
+  }, [motoristas, search, ativoFilter, cnhFilter]);
+
+  useEffect(() => { setPage(1); }, [search, ativoFilter, cnhFilter]);
+
+  const paged = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   const canEdit = profile?.canEdit ?? false;
   const canDelete = profile?.isAdmin ?? false;
@@ -76,11 +99,29 @@ function MotoristasPage() {
 
       <Card>
         <CardContent className="p-0">
-          <div className="p-4 border-b">
-            <div className="relative max-w-sm">
+          <div className="p-4 border-b flex flex-wrap items-center gap-2">
+            <div className="relative flex-1 min-w-[200px] max-w-sm">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input className="pl-9" placeholder="Buscar por nome, CPF, CNH..." value={search} onChange={(e) => setSearch(e.target.value)} />
+              <Input className="pl-9" placeholder="Buscar nome, CPF, CNH, email..." value={search} onChange={(e) => setSearch(e.target.value)} />
             </div>
+            <Select value={ativoFilter} onValueChange={setAtivoFilter}>
+              <SelectTrigger className="w-[130px]"><SelectValue /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="todos">Todos</SelectItem>
+                <SelectItem value="ativo">Ativos</SelectItem>
+                <SelectItem value="inativo">Inativos</SelectItem>
+              </SelectContent>
+            </Select>
+            <Select value={cnhFilter} onValueChange={setCnhFilter}>
+              <SelectTrigger className="w-[150px]"><SelectValue /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="todos">CNH: todos</SelectItem>
+                <SelectItem value="ok">CNH em dia</SelectItem>
+                <SelectItem value="warn">CNH a vencer</SelectItem>
+                <SelectItem value="expired">CNH vencida</SelectItem>
+                <SelectItem value="missing">CNH ausente</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
           <div className="overflow-x-auto">
             <Table>
@@ -98,9 +139,9 @@ function MotoristasPage() {
               <TableBody>
                 {isLoading ? (
                   <TableRow><TableCell colSpan={7} className="text-center py-8 text-muted-foreground">Carregando...</TableCell></TableRow>
-                ) : filtered.length === 0 ? (
-                  <TableRow><TableCell colSpan={7} className="text-center py-8 text-muted-foreground">Nenhum motorista cadastrado</TableCell></TableRow>
-                ) : filtered.map((m) => {
+                ) : paged.length === 0 ? (
+                  <TableRow><TableCell colSpan={7} className="text-center py-8 text-muted-foreground">Nenhum motorista encontrado</TableCell></TableRow>
+                ) : paged.map((m) => {
                   const cnh = getDocStatus(m.cnh_validade);
                   return (
                     <TableRow key={m.id}>
@@ -137,6 +178,7 @@ function MotoristasPage() {
               </TableBody>
             </Table>
           </div>
+          <DataPagination page={page} pageSize={PAGE_SIZE} total={filtered.length} onPageChange={setPage} />
         </CardContent>
       </Card>
 
