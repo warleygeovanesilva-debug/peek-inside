@@ -73,14 +73,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
+      { title: "Logística e Distribuição" },
+      { name: "description", content: "Sinstema de gestão de logística e Distribuição" },
       { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { property: "og:title", content: "Logística e Distribuição" },
+      { property: "og:description", content: "Sinstema de gestão de logística e Distribuição" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "Logística e Distribuição" },
+      { name: "twitter:description", content: "Sinstema de gestão de logística e Distribuição" },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/3c274a54-05f9-4d4b-bd12-9d46cbe2b2e9/id-preview-cbf05afd--d008d5ba-11c8-4099-858d-76ed349fe9fd.lovable.app-1779197463467.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/3c274a54-05f9-4d4b-bd12-9d46cbe2b2e9/id-preview-cbf05afd--d008d5ba-11c8-4099-858d-76ed349fe9fd.lovable.app-1779197463467.png" },
     ],
     links: [
       {
