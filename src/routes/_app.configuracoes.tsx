@@ -257,7 +257,7 @@ function VincularFilial() {
 
   const updateMotoristaFilial = useMutation({
     mutationFn: async ({ id, filial_id }: { id: string; filial_id: string | null }) => {
-      const { error } = await supabase.from("motoristas").update({ filial_id }).eq("id", id);
+      const { error } = await supabase.from("motoristas").update({ filial_id: filial_id ?? undefined }).eq("id", id);
       if (error) throw error;
     },
     onSuccess: () => { toast.success("Motorista atualizado!"); qc.invalidateQueries({ queryKey: ["motoristas-vincular"] }); },
