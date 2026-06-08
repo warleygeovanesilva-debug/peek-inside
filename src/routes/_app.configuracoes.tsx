@@ -21,7 +21,7 @@ export const Route = createFileRoute("/_app/configuracoes")({
   component: Page,
 });
 
-type AppRole = "admin" | "gestor" | "motorista" | "super_admin";
+type AppRole = "admin" | "gestor" | "motorista";
 
 // ── Filiais ──────────────────────────────────────────────
 function GestaoFiliais() {
@@ -42,7 +42,7 @@ function GestaoFiliais() {
   const save = useMutation({
     mutationFn: async () => {
       if (!form.nome.trim()) throw new Error("Nome é obrigatório");
-      const payload = { nome:form.nome.trim(), cnpj:form.cnpj||null, cidade:form.cidade||null, estado:form.estado||null, endereco:form.endereco||null, telefone:form.telefone||null, email:form.email||null };
+      const payload = { nome:form.nome.trim(), cnpj:form.cnpj||null, cidade:form.cidade||null, estado:form.estado||null, endereco:form.endereco||null };
       if (editing) { const { error } = await supabase.from("filiais").update(payload).eq("id", editing.id); if (error) throw error; }
       else { const { error } = await supabase.from("filiais").insert(payload); if (error) throw error; }
     },
@@ -248,7 +248,7 @@ function VincularFilial() {
 
   const updateVeiculoFilial = useMutation({
     mutationFn: async ({ id, filial_id }: { id: string; filial_id: string | null }) => {
-      const { error } = await supabase.from("veiculos").update({ filial_id }).eq("id", id);
+      const { error } = await supabase.from("veiculos").update({ filial_id: filial_id ?? undefined }).eq("id", id);
       if (error) throw error;
     },
     onSuccess: () => { toast.success("Veículo atualizado!"); qc.invalidateQueries({ queryKey: ["veiculos-vincular"] }); },
@@ -257,7 +257,7 @@ function VincularFilial() {
 
   const updateMotoristaFilial = useMutation({
     mutationFn: async ({ id, filial_id }: { id: string; filial_id: string | null }) => {
-      const { error } = await supabase.from("motoristas").update({ filial_id }).eq("id", id);
+      const { error } = await supabase.from("motoristas").update({ filial_id: filial_id ?? undefined }).eq("id", id);
       if (error) throw error;
     },
     onSuccess: () => { toast.success("Motorista atualizado!"); qc.invalidateQueries({ queryKey: ["motoristas-vincular"] }); },

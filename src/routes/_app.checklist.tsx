@@ -82,7 +82,7 @@ function NovoChecklistDialog({ open, onClose, filialId }: { open: boolean; onClo
       const status = nok > 0 ? "reprovado" : ok > 0 ? "aprovado" : "pendente";
       const { data: cl, error } = await supabase.from("checklists").insert({
         veiculo_id: veiculoId, motorista_id: motoristaId, filial_id: filialId,
-        km: km ? Number(km) : null, status, itens: itens.filter(i => i.status !== "nao_aplicavel"),
+        km: km ? Number(km) : null, status, itens: itens.filter(i => i.status !== "nao_aplicavel") as any,
         data: new Date().toISOString(),
       }).select().single();
       if (error) throw error;
