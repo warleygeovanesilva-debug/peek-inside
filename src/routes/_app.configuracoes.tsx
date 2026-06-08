@@ -42,7 +42,7 @@ function GestaoFiliais() {
   const save = useMutation({
     mutationFn: async () => {
       if (!form.nome.trim()) throw new Error("Nome é obrigatório");
-      const payload = { nome:form.nome.trim(), cnpj:form.cnpj||null, cidade:form.cidade||null, estado:form.estado||null, endereco:form.endereco||null, telefone:form.telefone||null, email:form.email||null };
+      const payload = { nome:form.nome.trim(), cnpj:form.cnpj||null, cidade:form.cidade||null, estado:form.estado||null, endereco:form.endereco||null };
       if (editing) { const { error } = await supabase.from("filiais").update(payload).eq("id", editing.id); if (error) throw error; }
       else { const { error } = await supabase.from("filiais").insert(payload); if (error) throw error; }
     },
