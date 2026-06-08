@@ -21,7 +21,7 @@ export const Route = createFileRoute("/_app/configuracoes")({
   component: Page,
 });
 
-type AppRole = "admin" | "gestor" | "motorista" | "super_admin";
+type AppRole = "admin" | "gestor" | "motorista";
 
 // ── Filiais ──────────────────────────────────────────────
 function GestaoFiliais() {
