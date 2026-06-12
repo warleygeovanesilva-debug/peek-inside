@@ -1,4 +1,4 @@
-import { supabaseAdmin } from "./src/integrations/supabase/client.server";
+import { supabaseAdmin } from "../src/integrations/supabase/client.server";
 
 const email = "heitorsilvamora27@gmail.com";
 const newPassword = "FrotaPro2026!";
