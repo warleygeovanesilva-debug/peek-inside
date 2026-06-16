@@ -11,9 +11,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { Download, FileBarChart, Upload, FileText, Wrench, Fuel, CircleDot, ClipboardCheck, AlertTriangle, TrendingUp, Trophy, Building2 } from "lucide-react";
+import { Download, FileBarChart, Upload, FileText, Wrench, Fuel, CircleDot, ClipboardCheck, AlertTriangle, TrendingUp, Trophy, Building2, FileSpreadsheet } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from "recharts";
 import { toast } from "sonner";
+import * as XLSX from "xlsx";
 
 export const Route = createFileRoute("/_app/relatorios")({
   head: () => ({ meta: [{ title: "Relatórios & BI — FrotaPro" }] }),
@@ -40,6 +41,27 @@ function downloadCSV(name: string, rows: Record<string, unknown>[]) {
   const a = document.createElement("a");
   a.href = url; a.download = `${name}-${new Date().toISOString().slice(0, 10)}.csv`;
   a.click(); URL.revokeObjectURL(url);
+}
+
+function downloadXLSX(name: string, rows: Record<string, unknown>[]) {
+  if (!rows.length) { toast.error("Sem dados para exportar"); return; }
+  const ws = XLSX.utils.json_to_sheet(rows);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, name.slice(0, 31));
+  XLSX.writeFile(wb, `${name}-${new Date().toISOString().slice(0, 10)}.xlsx`);
+}
+
+function ExportButtons({ name, rows }: { name: string; rows: Record<string, unknown>[] }) {
+  return (
+    <div className="flex gap-1.5">
+      <Button size="sm" variant="outline" onClick={() => downloadCSV(name, rows)}>
+        <Download className="h-3.5 w-3.5 mr-1.5" />CSV
+      </Button>
+      <Button size="sm" variant="outline" onClick={() => downloadXLSX(name, rows)}>
+        <FileSpreadsheet className="h-3.5 w-3.5 mr-1.5" />Excel
+      </Button>
+    </div>
+  );
 }
 
 function FiltroPeriodo({ inicio, fim, onInicio, onFim }: { inicio: string; fim: string; onInicio: (v: string) => void; onFim: (v: string) => void }) {
@@ -268,9 +290,7 @@ function Page() {
           <Card className="border-border/50">
             <CardHeader className="pb-2 flex flex-row items-center justify-between">
               <CardTitle className="text-sm">Abastecimentos ({abast.length})</CardTitle>
-              <Button size="sm" variant="outline" onClick={() => downloadCSV("abastecimentos", abast.map((a: any) => ({ Data: a.data?.slice(0,10), Placa: a.veiculos?.placa, Modelo: a.veiculos?.modelo, Motorista: a.motoristas?.nome, Combustivel: a.combustivel, Litros: a.litros, Valor: a.valor_total, KM: a.km_abastecido, Consumo_kml: a.consumo_kml })))}>
-                <Download className="h-3.5 w-3.5 mr-1.5" />CSV
-              </Button>
+              <ExportButtons name="abastecimentos" rows={abast.map((a: any) => ({ Data: a.data?.slice(0,10), Placa: a.veiculos?.placa, Modelo: a.veiculos?.modelo, Motorista: a.motoristas?.nome, Combustivel: a.combustivel, Litros: a.litros, Valor: a.valor_total, KM: a.km_abastecido, Consumo_kml: a.consumo_kml }))} />
             </CardHeader>
             <CardContent className="p-0 overflow-x-auto">
               <Table>
@@ -299,9 +319,7 @@ function Page() {
           <Card className="border-border/50">
             <CardHeader className="pb-2 flex flex-row items-center justify-between">
               <CardTitle className="text-sm">Manutenções ({manut.length})</CardTitle>
-              <Button size="sm" variant="outline" onClick={() => downloadCSV("manutencoes", manut.map((m: any) => ({ Data: m.data_prevista?.slice(0,10), Placa: m.veiculos?.placa, Tipo: m.tipo, Descricao: m.descricao, Status: m.status, Custo: m.custo, Km: m.km_veiculo })))}>
-                <Download className="h-3.5 w-3.5 mr-1.5" />CSV
-              </Button>
+              <ExportButtons name="manutencoes" rows={manut.map((m: any) => ({ Data: m.data_prevista?.slice(0,10), Placa: m.veiculos?.placa, Tipo: m.tipo, Descricao: m.descricao, Status: m.status, Custo: m.custo, Km: m.km_veiculo }))} />
             </CardHeader>
             <CardContent className="p-0 overflow-x-auto">
               <Table>
@@ -329,9 +347,7 @@ function Page() {
           <Card className="border-border/50">
             <CardHeader className="pb-2 flex flex-row items-center justify-between">
               <CardTitle className="text-sm">Pneus ({pneus.length})</CardTitle>
-              <Button size="sm" variant="outline" onClick={() => downloadCSV("pneus", pneus.map((p: any) => ({ Serie: p.numero_serie, Marca: p.marca, Modelo: p.modelo, Medida: p.medida, DOT: p.dot, Veiculo: p.veiculos?.placa, Posicao: p.posicao, KM: p.km_atual, Status: p.status })))}>
-                <Download className="h-3.5 w-3.5 mr-1.5" />CSV
-              </Button>
+              <ExportButtons name="pneus" rows={pneus.map((p: any) => ({ Serie: p.numero_serie, Marca: p.marca, Modelo: p.modelo, Medida: p.medida, DOT: p.dot, Veiculo: p.veiculos?.placa, Posicao: p.posicao, KM: p.km_atual, Status: p.status }))} />
             </CardHeader>
             <CardContent className="p-0 overflow-x-auto">
               <Table>
@@ -360,9 +376,7 @@ function Page() {
           <Card className="border-border/50">
             <CardHeader className="pb-2 flex flex-row items-center justify-between">
               <CardTitle className="text-sm">Checklists ({checklists.length})</CardTitle>
-              <Button size="sm" variant="outline" onClick={() => downloadCSV("checklists", checklists.map((c: any) => ({ Data: c.data?.slice(0,10), Placa: c.veiculos?.placa, Motorista: c.motoristas?.nome, KM: c.km, Status: c.status, Itens: Array.isArray(c.itens) ? c.itens.length : 0 })))}>
-                <Download className="h-3.5 w-3.5 mr-1.5" />CSV
-              </Button>
+              <ExportButtons name="checklists" rows={checklists.map((c: any) => ({ Data: c.data?.slice(0,10), Placa: c.veiculos?.placa, Motorista: c.motoristas?.nome, KM: c.km, Status: c.status, Itens: Array.isArray(c.itens) ? c.itens.length : 0 }))} />
             </CardHeader>
             <CardContent className="p-0 overflow-x-auto">
               <Table>
@@ -390,9 +404,7 @@ function Page() {
           <Card className="border-border/50">
             <CardHeader className="pb-2 flex flex-row items-center justify-between">
               <CardTitle className="text-sm">Ocorrências ({ocorrencias.length})</CardTitle>
-              <Button size="sm" variant="outline" onClick={() => downloadCSV("ocorrencias", ocorrencias.map((o: any) => ({ Data: o.data?.slice(0,10), Placa: o.veiculos?.placa, Motorista: o.motoristas?.nome, Tipo: o.tipo, Severidade: o.severidade, Status: o.status, Valor: o.valor })))}>
-                <Download className="h-3.5 w-3.5 mr-1.5" />CSV
-              </Button>
+              <ExportButtons name="ocorrencias" rows={ocorrencias.map((o: any) => ({ Data: o.data?.slice(0,10), Placa: o.veiculos?.placa, Motorista: o.motoristas?.nome, Tipo: o.tipo, Severidade: o.severidade, Status: o.status, Valor: o.valor }))} />
             </CardHeader>
             <CardContent className="p-0 overflow-x-auto">
               <Table>
