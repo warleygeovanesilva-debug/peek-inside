@@ -11,9 +11,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { Download, FileBarChart, Upload, FileText, Wrench, Fuel, CircleDot, ClipboardCheck, AlertTriangle, TrendingUp, Trophy, Building2 } from "lucide-react";
+import { Download, FileBarChart, Upload, FileText, Wrench, Fuel, CircleDot, ClipboardCheck, AlertTriangle, TrendingUp, Trophy, Building2, FileSpreadsheet } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from "recharts";
 import { toast } from "sonner";
+import * as XLSX from "xlsx";
 
 export const Route = createFileRoute("/_app/relatorios")({
   head: () => ({ meta: [{ title: "Relatórios & BI — FrotaPro" }] }),
@@ -40,6 +41,27 @@ function downloadCSV(name: string, rows: Record<string, unknown>[]) {
   const a = document.createElement("a");
   a.href = url; a.download = `${name}-${new Date().toISOString().slice(0, 10)}.csv`;
   a.click(); URL.revokeObjectURL(url);
+}
+
+function downloadXLSX(name: string, rows: Record<string, unknown>[]) {
+  if (!rows.length) { toast.error("Sem dados para exportar"); return; }
+  const ws = XLSX.utils.json_to_sheet(rows);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, name.slice(0, 31));
+  XLSX.writeFile(wb, `${name}-${new Date().toISOString().slice(0, 10)}.xlsx`);
+}
+
+function ExportButtons({ name, rows }: { name: string; rows: Record<string, unknown>[] }) {
+  return (
+    <div className="flex gap-1.5">
+      <Button size="sm" variant="outline" onClick={() => downloadCSV(name, rows)}>
+        <Download className="h-3.5 w-3.5 mr-1.5" />CSV
+      </Button>
+      <Button size="sm" variant="outline" onClick={() => downloadXLSX(name, rows)}>
+        <FileSpreadsheet className="h-3.5 w-3.5 mr-1.5" />Excel
+      </Button>
+    </div>
+  );
 }
 
 function FiltroPeriodo({ inicio, fim, onInicio, onFim }: { inicio: string; fim: string; onInicio: (v: string) => void; onFim: (v: string) => void }) {
